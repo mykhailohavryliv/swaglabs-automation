@@ -1,7 +1,6 @@
 import pytest
 
 from pages.login_page import LoginPage
-from playwright.sync_api import expect
 
 from pages.products_page import ProductsPage
 
