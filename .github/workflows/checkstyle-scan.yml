@@ -4,14 +4,16 @@ jobs:
   lint:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    env:
+      PASSWORD: ${{ secrets.PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-    - name: Install Ruff Black
-      run: pip install ruff black
+    - name: Install dependencies
+      run: pip install ruff black python-dotenv
     - name: Run Lint
       run: ruff check .
       # ruff check . --fix --- IGNORE ---
