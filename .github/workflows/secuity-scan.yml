@@ -1,0 +1,19 @@
+name: Security Scan
+on: [push, pull_request]
+jobs:
+  security-scan:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install Bandit and pip-audit
+      run: pip install bandit pip-audit
+    - name: Run Bandit
+    # -lll flag is fail only on high severity issues
+      run: bandit -r . -c bandit.yaml -lll
+    - name: Check dependencies
+      run: pip-audit
