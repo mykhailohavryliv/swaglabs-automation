@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    env:
+      PASSWORD: ${{ secrets.PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
