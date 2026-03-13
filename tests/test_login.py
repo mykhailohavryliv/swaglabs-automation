@@ -21,6 +21,6 @@ class TestLogin:
         login_page.login("locked_out_user", "secret_sauce")
 
         # Verify error message
-        expect(page.locator(login_page.error_message_container)).to_be_visible()
+        expect(login_page.error_message_container).to_be_visible()
         error_text = login_page.get_error_message()
         assert "Epic sadface: Sorry, this user has been locked out." in error_text
