@@ -1,4 +1,5 @@
 import pytest
+from config.settings import settings
 
 from pages.login_page import LoginPage
 
@@ -11,7 +12,7 @@ class TestAddToCart:
     def before_each(self, page):
         login_page = LoginPage(page)
         login_page.navigate_to_login()
-        login_page.login("standard_user", "secret_sauce")
+        login_page.login("standard_user", settings.PASSWORD)
         ProductsPage(page).navigate_to_products()
 
     def test_add_to_cart(self, page):

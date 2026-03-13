@@ -1,5 +1,5 @@
 name: Security Scan
-on: [push, pull_request]
+on: [push]
 jobs:
   security-scan:
     timeout-minutes: 5
@@ -11,7 +11,7 @@ jobs:
       with:
         python-version: '3.11'
     - name: Install Bandit and pip-audit
-      run: pip install bandit pip-audit
+      run: pip install bandit pip-audit ruff
     - name: Run Bandit
     # -lll flag is fail only on high severity issues
       run: bandit -r . -c bandit.yaml -lll
