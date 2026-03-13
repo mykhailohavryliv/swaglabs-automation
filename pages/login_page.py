@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from playwright.sync_api import Page
 
+
 class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
@@ -18,6 +19,6 @@ class LoginPage(BasePage):
         self.fill(self.username_input, username)
         self.fill(self.password_input, password)
         self.click(self.login_button)
-        
+
     def get_error_message(self):
         return self.page.locator(self.error_message_container).inner_text()

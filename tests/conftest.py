@@ -2,6 +2,7 @@ import pytest
 from playwright.sync_api import Playwright, Browser, BrowserContext, Page
 from config.settings import settings
 
+
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
     return {
@@ -9,18 +10,19 @@ def browser_context_args(browser_context_args):
         "viewport": {
             "width": 1920,
             "height": 1080,
-        }
+        },
     }
+
 
 @pytest.fixture(scope="session")
 def browser(playwright: Playwright) -> Browser:
     browser_type = getattr(playwright, settings.BROWSER)
     browser = browser_type.launch(
-        headless=settings.HEADLESS,
-        args=["--start-maximized"]
+        headless=settings.HEADLESS, args=["--start-maximized"]
     )
     yield browser
     browser.close()
+
 
 @pytest.fixture(scope="function")
 def context(browser: Browser) -> BrowserContext:
@@ -32,12 +34,14 @@ def context(browser: Browser) -> BrowserContext:
     yield context
     context.close()
 
+
 @pytest.fixture(scope="function")
 def page(context: BrowserContext) -> Page:
     page = context.new_page()
     page.set_default_timeout(settings.DEFAULT_TIMEOUT)
     yield page
-    
+
+
 @pytest.fixture(autouse=True)
 def trace_on_failure(request, context: BrowserContext):
     yield
@@ -46,6 +50,7 @@ def trace_on_failure(request, context: BrowserContext):
         context.tracing.stop(path=trace_path)
     else:
         context.tracing.stop()
+
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):

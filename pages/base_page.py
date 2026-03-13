@@ -2,6 +2,7 @@ from typing import Union
 from playwright.sync_api import Page, Locator
 from config.settings import settings
 
+
 class BasePage:
     def __init__(self, page: Page):
         self.page = page
@@ -26,6 +27,6 @@ class BasePage:
             return self.page.locator(locator).is_visible()
         else:
             return locator.is_visible()
-    
+
     def wait_for_selector(self, selector: str):
         self.page.wait_for_selector(selector)
