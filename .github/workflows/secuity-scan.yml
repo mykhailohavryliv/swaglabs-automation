@@ -16,4 +16,5 @@ jobs:
     # -lll flag is fail only on high severity issues
       run: bandit -r . -c bandit.yaml -lll
     - name: Check dependencies
-      run: pip-audit
+    # fail only on high severity issues
+      run: pip-audit --fail-on high
