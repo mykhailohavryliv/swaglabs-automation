@@ -45,7 +45,7 @@ jobs:
           test-results/
           allure-report/
         retention-days: 30
-  deploy:
+  deploy-report:
     if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: test
     runs-on: ubuntu-latest
@@ -55,6 +55,11 @@ jobs:
       with:
         name: test-reports
         path: .
+    - name: Ensure repository is cloned
+      run: |
+        if [ ! -d ".git" ]; then
+          git clone https://github.com/mykhailohavryliv/swaglabs-automation
+        fi
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.3
       with:

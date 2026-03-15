@@ -1,4 +1,5 @@
 import pytest
+import allure
 from config.settings import settings
 
 from pages.login_page import LoginPage
@@ -6,6 +7,7 @@ from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
 
 
+@allure.feature("Add to Cart")
 class TestAddToCart:
 
     @pytest.fixture(autouse=True)
@@ -15,6 +17,7 @@ class TestAddToCart:
         login_page.login("standard_user", settings.PASSWORD)
         ProductsPage(page).navigate_to_products()
 
+    @allure.story("Add Product to Cart")
     def test_add_to_cart(self, page):
         products_page = ProductsPage(page)
         products_page.add_product_to_cart_by_number(0)

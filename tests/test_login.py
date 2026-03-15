@@ -2,10 +2,9 @@ import allure
 from pages.login_page import LoginPage
 from playwright.sync_api import expect
 
-
+@allure.feature("Login")
 class TestLogin:
 
-    @allure.feature("Login")
     @allure.story("Successful Login")
     def test_successful_login(self, page):
         login_page = LoginPage(page)
@@ -17,7 +16,6 @@ class TestLogin:
         expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
         expect(page.locator(".title")).to_have_text("Products")
 
-    @allure.feature("Login")
     @allure.story("Locked Out User")
     def test_locked_out_user(self, page):
         login_page = LoginPage(page)
