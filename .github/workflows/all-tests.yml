@@ -50,16 +50,12 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
     - name: Download Allure Report
       uses: actions/download-artifact@v4
       with:
         name: test-reports
         path: .
-    - name: Ensure repository is cloned
-      run: |
-        if [ ! -d ".git" ]; then
-          git clone https://github.com/mykhailohavryliv/swaglabs-automation
-        fi
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.3
       with:
