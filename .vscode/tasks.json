@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Tests with Allure",
+            "type": "shell",
+            "command": "${workspaceFolder}/venv/bin/python",
+            "args": ["-m", "pytest"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$pytest"
+        },
+        {
+            "label": "Generate Allure Report",
+            "type": "shell",
+            "command": "allure",
+            "args": ["serve", "allure-results"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "dependsOn": ["Run Tests with Allure"]
+        }
+    ]
+}

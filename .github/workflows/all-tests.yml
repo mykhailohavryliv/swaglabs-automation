@@ -22,8 +22,16 @@ jobs:
         pip install -r requirements.txt
     - name: Ensure browsers are installed
       run: python -m playwright install --with-deps
+    - name: Install Allure CLI
+      run: |
+        wget -O allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+        tar -zxvf allure.tgz
+        sudo mv allure-2.24.0 /opt/allure
+        sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
     - name: Run your tests
       run: pytest
+    - name: Generate Allure Report
+      run: allure generate allure-results --clean --output allure-report
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
@@ -31,4 +39,10 @@ jobs:
         path: |
           report.html
           test-results/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: allure-report
+        path: allure-report/
         retention-days: 30
