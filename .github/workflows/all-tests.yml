@@ -4,6 +4,10 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
   pull_request:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 jobs:
   test:
     timeout-minutes: 5
@@ -22,13 +26,38 @@ jobs:
         pip install -r requirements.txt
     - name: Ensure browsers are installed
       run: python -m playwright install --with-deps
+    - name: Install Allure CLI
+      run: |
+        wget -O allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+        tar -zxvf allure.tgz
+        sudo mv allure-2.24.0 /opt/allure
+        sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
     - name: Run your tests
       run: pytest
+    - name: Generate Allure Report
+      run: allure generate allure-results --clean --output allure-report
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: test-reports
         path: |
           report.html
           test-results/
+          allure-report/
         retention-days: 30
+  deploy-report:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download Allure Report
+      uses: actions/download-artifact@v4
+      with:
+        name: test-reports
+        path: .
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.4.3
+      with:
+        branch: gh-pages
+        folder: allure-report
