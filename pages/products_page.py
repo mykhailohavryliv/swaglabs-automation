@@ -1,5 +1,6 @@
 from pages.base_page import BasePage
 from playwright.sync_api import Page
+from utils.logger import log_step
 
 
 class ProductsPage(BasePage):
@@ -15,15 +16,18 @@ class ProductsPage(BasePage):
         )
         self.shopping_cart_badge = page.locator(".shopping_cart_badge")
 
+    @log_step("Navigate to Products Page")
     def navigate_to_products(self):
         # Navigate to the products (inventory) page and wait for it to load.
         super().navigate("/inventory.html")
         self.page_title.wait_for()
 
+    @log_step("Add product #{product_number} to cart")
     def add_product_to_cart_by_number(self, product_number):
         button = self.product_add_to_cart_buttons.nth(product_number)
         button.click()
 
+    @log_step("Get shopping cart badge count")
     def get_shopping_cart_badge_count(self):
         if self.shopping_cart_badge.is_visible():
             return int(self.shopping_cart_badge.inner_text())

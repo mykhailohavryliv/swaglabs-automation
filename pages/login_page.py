@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from playwright.sync_api import Page
 from config.settings import settings
+from utils.logger import log_step
 
 
 class LoginPage(BasePage):
@@ -12,14 +13,17 @@ class LoginPage(BasePage):
         self.login_button = page.get_by_test_id("login-button")
         self.error_message_container = page.get_by_test_id("error")
 
+    @log_step("Navigate to Login Page")
     def navigate_to_login(self):
         super().navigate()
         self.username_input.wait_for()
 
+    @log_step("Login with username: '{username}'")
     def login(self, username="standard_user", password=settings.PASSWORD):
         self.username_input.fill(username)
         self.password_input.fill(password)
         self.login_button.click()
 
+    @log_step("Get error message")
     def get_error_message(self):
         return self.error_message_container.inner_text()
