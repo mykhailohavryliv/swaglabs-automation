@@ -1,30 +1,47 @@
 import allure
-from pages.login_page import LoginPage
+import pytest
 from playwright.sync_api import expect
 
 
 @allure.feature("Login")
 class TestLogin:
 
-    @allure.story("Successful Login")
-    def test_successful_login(self, page):
-        login_page = LoginPage(page)
+    @allure.story("Login Scenarios")
+    @pytest.mark.parametrize(
+        "username, is_success, expected_url, expected_text, error_message",
+        [
+            (
+                "standard_user",
+                True,
+                "https://www.saucedemo.com/inventory.html",
+                "Products",
+                None,
+            ),
+            (
+                "locked_out_user",
+                False,
+                None,
+                None,
+                "Epic sadface: Sorry, this user has been locked out.",
+            ),
+        ],
+    )
+    def test_login(
+        self,
+        login_page,
+        page,
+        username,
+        is_success,
+        expected_url,
+        expected_text,
+        error_message,
+    ):
         login_page.navigate_to_login()
+        login_page.login(username)
 
-        login_page.login("standard_user")
-
-        # Verify successful login by checking the URL or a specific element on the inventory page
-        expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
-        expect(page.locator(".title")).to_have_text("Products")
-
-    @allure.story("Locked Out User")
-    def test_locked_out_user(self, page):
-        login_page = LoginPage(page)
-        login_page.navigate_to_login()
-
-        login_page.login("locked_out_user")
-
-        # Verify error message
-        expect(login_page.error_message_container).to_be_visible()
-        error_text = login_page.get_error_message()
-        assert "Epic sadface: Sorry, this user has been locked out." in error_text
+        if is_success:
+            expect(page).to_have_url(expected_url)
+            expect(page.locator(".title")).to_have_text(expected_text)
+        else:
+            expect(login_page.error_message_container).to_be_visible()
+            expect(login_page.error_message_container).to_contain_text(error_message)

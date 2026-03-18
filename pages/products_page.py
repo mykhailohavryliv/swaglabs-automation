@@ -7,13 +7,13 @@ class ProductsPage(BasePage):
         super().__init__(page)
         # Locators
         self.page_title = page.locator(".title")
-        self.product_titles = page.locator("div[data-test='inventory-item-name']")
-        self.product_descriptions = page.locator("div[data-test='inventory-item-desc']")
-        self.product_prices = page.locator("div[data-test='inventory-item-price']")
+        self.product_titles = page.get_by_test_id("inventory-item-name")
+        self.product_descriptions = page.get_by_test_id("inventory-item-desc")
+        self.product_prices = page.get_by_test_id("inventory-item-price")
         self.product_add_to_cart_buttons = page.locator(
             "button[data-test*='add-to-cart']"
         )
-        self.shppoing_cart_badge = page.locator(".shopping_cart_badge")
+        self.shopping_cart_badge = page.locator(".shopping_cart_badge")
 
     def navigate_to_products(self):
         # Navigate to the products (inventory) page and wait for it to load.
@@ -25,6 +25,6 @@ class ProductsPage(BasePage):
         button.click()
 
     def get_shopping_cart_badge_count(self):
-        if self.shppoing_cart_badge.is_visible():
-            return int(self.shppoing_cart_badge.inner_text())
+        if self.shopping_cart_badge.is_visible():
+            return int(self.shopping_cart_badge.inner_text())
         return 0

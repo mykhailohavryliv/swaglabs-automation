@@ -16,6 +16,7 @@ def browser_context_args(browser_context_args):
 
 @pytest.fixture(scope="session")
 def browser(playwright: Playwright) -> Browser:
+    playwright.selectors.set_test_id_attribute("data-test")
     browser_type = getattr(playwright, settings.BROWSER)
     browser = browser_type.launch(
         headless=settings.HEADLESS, args=["--start-maximized"]
@@ -60,3 +61,17 @@ def pytest_runtest_makereport(item, call):
     # set an attribute for each phase of a call, which can
     # be "setup", "call", "teardown"
     setattr(item, "rep_" + rep.when, rep)
+
+
+@pytest.fixture
+def login_page(page: Page):
+    from pages.login_page import LoginPage
+
+    return LoginPage(page)
+
+
+@pytest.fixture
+def products_page(page: Page):
+    from pages.products_page import ProductsPage
+
+    return ProductsPage(page)
