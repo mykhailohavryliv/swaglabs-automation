@@ -1,0 +1,2 @@
+INFO     swaglabs:logger.py:29 STEP: Navigate to Login Page
+INFO     swaglabs:logger.py:29 STEP: Login with username: 'locked_out_user'
