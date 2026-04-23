@@ -1,4 +1,4 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Apr 22 04:48:35 UTC 2026","Wed Apr 22 04:48:35 UTC 2026","550","tests","test_login","TestLogin","","","test_login[standard_user-True-https://www.saucedemo.com/inventory.html-Products-None]",""
-"passed","Wed Apr 22 04:48:35 UTC 2026","Wed Apr 22 04:48:36 UTC 2026","509","tests","test_login","TestLogin","","","test_login[locked_out_user-False-None-None-Epic sadface: Sorry, this user has been locked out.]",""
-"passed","Wed Apr 22 04:48:35 UTC 2026","Wed Apr 22 04:48:35 UTC 2026","100","tests","test_add_to_cart","TestAddToCart","","","test_add_to_cart",""
+"passed","Thu Apr 23 04:52:37 UTC 2026","Thu Apr 23 04:52:38 UTC 2026","414","tests","test_login","TestLogin","","","test_login[standard_user-True-https://www.saucedemo.com/inventory.html-Products-None]",""
+"passed","Thu Apr 23 04:52:37 UTC 2026","Thu Apr 23 04:52:37 UTC 2026","77","tests","test_add_to_cart","TestAddToCart","","","test_add_to_cart",""
+"passed","Thu Apr 23 04:52:38 UTC 2026","Thu Apr 23 04:52:38 UTC 2026","364","tests","test_login","TestLogin","","","test_login[locked_out_user-False-None-None-Epic sadface: Sorry, this user has been locked out.]",""
